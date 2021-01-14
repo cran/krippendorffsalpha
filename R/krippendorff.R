@@ -48,13 +48,13 @@ krippendorff.control = function(confint, verbose, control)
         if (is.null(bootit) || ! is.numeric(bootit) || length(bootit) > 1 || bootit != as.integer(bootit) || bootit < 100)
         {
             if (verbose)
-                cat("\nControl parameter 'bootit' must be a positive integer >= 100. Setting it to the default value of 1,000.\n")
+                message("\nControl parameter 'bootit' must be a positive integer >= 100. Setting it to the default value of 1,000.")
             control$bootit = 1000
         }
         if (is.null(control$parallel) || ! is.logical(control$parallel) || length(control$parallel) > 1)
         {
             if (verbose)
-                cat("\nControl parameter 'parallel' must be a logical value. Setting it to the default value of TRUE.\n")
+                message("\nControl parameter 'parallel' must be a logical value. Setting it to the default value of TRUE.")
             control$parallel = TRUE
         }
         if (control$parallel)
@@ -64,7 +64,7 @@ krippendorff.control = function(confint, verbose, control)
                 if (is.null(control$type) || length(control$type) > 1 || ! control$type %in% c("SOCK", "PVM", "MPI", "NWS"))
                 {
                     if (verbose)
-                        cat("\nControl parameter 'type' must be \"SOCK\", \"PVM\", \"MPI\", or \"NWS\". Setting it to \"SOCK\".\n")
+                        message("\nControl parameter 'type' must be \"SOCK\", \"PVM\", \"MPI\", or \"NWS\". Setting it to \"SOCK\".")
                     control$type = "SOCK"
                 }
                 nodes = control$nodes
@@ -74,7 +74,7 @@ krippendorff.control = function(confint, verbose, control)
             else
             {
                 if (verbose)
-                    cat("\nParallel computation requires package parallel. Setting control parameter 'parallel' to FALSE.\n")
+                    message("\nParallel computation requires package parallel. Setting control parameter 'parallel' to FALSE.")
                 control$parallel = FALSE
                 control$type = control$nodes = NULL 
             }
@@ -170,15 +170,15 @@ krippendorff.bootstrap = function(object)
 #' @examples
 #' # The following data were presented in Krippendorff (2013).
 #'
-#' data = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
-#'                 1,2,3,3,2,2,4,1,2,5,NA,3,
-#'                 NA,3,3,3,2,3,4,2,2,5,1,NA,
-#'                 1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
-#' data
-#' fit = krippendorffs.alpha(data, level = "nominal", confint = TRUE, verbose = TRUE,
-#'                           control = list(bootit = 100, parallel = FALSE))
-#' summary(fit)
-#' confint(fit, 0.99)
+#' nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
+#'                    1,2,3,3,2,2,4,1,2,5,NA,3,
+#'                    NA,3,3,3,2,3,4,2,2,5,1,NA,
+#'                    1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
+#' nominal
+#' fit.nom = krippendorffs.alpha(nominal, level = "nominal", confint = TRUE, verbose = TRUE,
+#'                               control = list(bootit = 100, parallel = FALSE))
+#' summary(fit.nom)
+#' confint(fit.nom, level = 0.99)
 
 krippendorffs.alpha = function(data, level = c("interval", "nominal", "ordinal", "ratio"), confint = TRUE,
                                verbose = FALSE, control = list())
@@ -287,7 +287,7 @@ ratio.dist = function(x, y)
 #' @param model a fitted model object, the result of a call to \code{\link{krippendorffs.alpha}}.
 #' @param units a vector of integers. A DFBETA will be computed for each of the corresponding units.
 #' @param coders a vector of integers. A DFBETA will be computed for each of the corresponding coders.
-#' @param ... additional arguments.
+#' @param ... additional arguments. These are ignored.
 #
 #' @return A list comprising at most two elements.
 #'         \item{dfbeta.units}{a vector containing DFBETAS for the units specified via argument \code{units}.}
@@ -305,13 +305,13 @@ ratio.dist = function(x, y)
 #' @examples
 #' # The following data were presented in Krippendorff (2013).
 #'
-#' data = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
-#'                 1,2,3,3,2,2,4,1,2,5,NA,3,
-#'                 NA,3,3,3,2,3,4,2,2,5,1,NA,
-#'                 1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
-#' fit = krippendorffs.alpha(data, level = "nominal", confint = FALSE)
-#' summary(fit)
-#' (inf = influence(fit, units = c(6, 11), coders = c(2, 3)))
+#' nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
+#'                    1,2,3,3,2,2,4,1,2,5,NA,3,
+#'                    NA,3,3,3,2,3,4,2,2,5,1,NA,
+#'                    1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
+#' fit.nom = krippendorffs.alpha(nominal, level = "nominal", confint = FALSE)
+#' summary(fit.nom)
+#' (inf = influence(fit.nom, units = c(6, 11), coders = c(2, 3)))
 
 influence.krippendorffsalpha = function(model, units, coders, ...)
 {
@@ -356,7 +356,7 @@ influence.krippendorffsalpha = function(model, units, coders, ...)
 #' @param object an object of class \code{"krippendorffsalpha"}, the result of a call to \code{\link{krippendorffs.alpha}}.
 #' @param conf.level the confidence level for the confidence intervals. The default is 0.95.
 #' @param digits the number of significant digits to display. The default is 4.
-#' @param \dots additional arguments.
+#' @param \dots additional arguments. These are passed to \code{\link{quantile}}.
 #'
 #' @seealso \code{\link{krippendorffs.alpha}}
 #'
@@ -373,26 +373,30 @@ influence.krippendorffsalpha = function(model, units, coders, ...)
 #' # including a 99% confidence interval. Also plot the results.
 #'
 #' data(cartilage)
-#' data = as.matrix(cartilage[1:100, ])
-#' fit = krippendorffs.alpha(data, level = "interval", confint = TRUE,
-#'                           control = list(bootit = 1000, parallel = FALSE))
-#' summary(fit, conf.level = 0.99)
+#' cartilage = as.matrix(cartilage[1:100, ])
+#' fit.cart = krippendorffs.alpha(cartilage, level = "interval", confint = TRUE,
+#'                                control = list(bootit = 1000, parallel = FALSE))
+#' summary(fit.cart, conf.level = 0.99)
 #' dev.new()
-#' hist(fit$boot.sample, prob = TRUE, xlim = c(0.7, 0.9), xlab = "Bootstrap Estimates", main = "")
-#' lines(density(fit$boot.sample), col = "blue", lwd = 3)
-#' abline(v = fit$alpha.hat, col = "orange", lwd = 3)
+#' plot(fit.cart, xlim = c(0.7, 0.9), xlab = "Bootstrap Estimates",
+#'      main = "Results for Cartilage Data")
 
 summary.krippendorffsalpha = function(object, conf.level = 0.95, digits = 4, ...)
 {
 	cat("\nKrippendorff's Alpha\n\n")
 	cat("Data:", object$units, "units x", object$coders, "coders\n")
+	ans = NULL
+	ans$units = object$units
+	ans$coders = object$coders
     cat("\nCall:\n\n")
     print(object$call)
+	ans$call = object$call
     cat("\nControl parameters:\n")
     if (length(object$control) > 0)
     {
         control.table = cbind(unlist(c(object$control, "")))
         colnames(control.table) = ""
+		ans$control.table = control.table
         print(control.table, quote = FALSE)
     }
     else
@@ -409,25 +413,27 @@ summary.krippendorffsalpha = function(object, conf.level = 0.95, digits = 4, ...
         {
             lo = (1 - conf.level) / 2
             probs = c(lo, 1 - lo)
-            confint = quantile(boot.sample, probs)
+            confint = quantile(boot.sample, probs, ...)
         }
         coef.table = cbind(object$alpha.hat, t(confint))
     }
     colnames(coef.table) = c("Estimate", "Lower", "Upper")
     rownames(coef.table) = names(object$alpha.hat)
+	ans$coef.table = coef.table
     cat("Results:\n\n")
     print(signif(coef.table, digits = digits))
     cat("\n")
+	invisible(ans)
 }
 
-#' Compute a confidence interval for Krippendorffs Alpha.
+#' Compute a confidence interval for Krippendorff's Alpha.
 #'
 #' @details This function computes a bootstrap confidence interval for alpha, assuming that \code{\link{krippendorffs.alpha}} was called with \code{confint = TRUE}.
 #'
 #' @param object an object of class \code{"krippendorffsalpha"}, the result of a call to \code{\link{krippendorffs.alpha}}.
 #' @param parm always ignored since there is only one parameter.
 #' @param level the desired confidence level for the interval. The default is 0.95.
-#' @param \dots additional arguments.
+#' @param \dots additional arguments. These are passed to \code{\link{quantile}}.
 #' @return A vector with entries giving lower and upper confidence limits. These will be labelled as (1-level)/2 and 1 - (1-level)/2.
 #' @seealso \code{\link{krippendorffs.alpha}}
 #'
@@ -443,11 +449,11 @@ summary.krippendorffsalpha = function(object, conf.level = 0.95, digits = 4, ...
 #' # using a bootstrap sample size of 1,000.
 #'
 #' data(cartilage)
-#' data = as.matrix(cartilage[1:100, ])
-#' fit = krippendorffs.alpha(data, level = "interval", confint = TRUE,
-#'                           control = list(bootit = 1000, parallel = FALSE))
-#' fit$alpha.hat
-#' confint(fit, level = 0.99)
+#' cartilage = as.matrix(cartilage[1:100, ])
+#' fit.cart = krippendorffs.alpha(cartilage, level = "interval", confint = TRUE,
+#'                                control = list(bootit = 1000, parallel = FALSE))
+#' fit.cart$alpha.hat
+#' confint(fit.cart, level = 0.99)
 
 confint.krippendorffsalpha = function(object, parm = "alpha", level = 0.95, ...)
 {
@@ -461,10 +467,73 @@ confint.krippendorffsalpha = function(object, parm = "alpha", level = 0.95, ...)
             lo = (1 - level) / 2
             hi = 1 - lo
             probs = c(lo, hi)
-            confint = quantile(boot.sample, probs)
+            confint = quantile(boot.sample, probs, ...)
             names(confint) = probs
         }
     }
     confint
 }
 
+#' Plot the results of a Krippendorff's Alpha analysis.
+#'
+#' @details This function plots the results of a Krippendorff's Alpha analysis, assuming that \code{\link{krippendorffs.alpha}} was called with \code{confint = TRUE}.
+#'
+#' @param x an object of class \code{"krippendorffsalpha"}, the result of a call to \code{\link{krippendorffs.alpha}}.
+#' @param y always ignored.
+#' @param level the desired confidence level for the interval. The default is 0.95.
+#' @param type the method used to compute sample quantiles. This argument is passed to \code{\link{quantile}}. The default is 7.
+#' @param density logical; if \code{TRUE}, a kernel density estimate is plotted.
+#' @param lty.density the line type for the kernel density estimate. The default is 1.
+#' @param lty.estimate the line type for the estimate of alpha. The default is 1.
+#' @param lty.interval the line type for the confidence limits. The default is 2.
+#' @param col.density the color for the kernel density estimate. The default is black.
+#' @param col.estimate the color for the estimate of alpha. The default is orange.
+#' @param col.interval the color for the confidence limits. The default is blue.
+#' @param lwd.density the line width for the kernel density estimate. The default is 3.
+#' @param lwd.estimate the line width for the estimate of alpha. The default is 3.
+#' @param lwd.interval the line width for the confidence limits. The default is 3.
+#' @param \dots additional arguments. These are passed to \code{\link{hist}}.
+#'
+#' @method plot krippendorffsalpha
+#'
+#' @references
+#' Krippendorff, K. (2013). Computing Krippendorff's alpha-reliability. Technical report, University of Pennsylvania.
+#'
+#' @export
+#'
+#' @examples
+#' # The following data were presented in Krippendorff (2013).
+#'
+#' nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
+#'                    1,2,3,3,2,2,4,1,2,5,NA,3,
+#'                    NA,3,3,3,2,3,4,2,2,5,1,NA,
+#'                    1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
+#' fit.nom = krippendorffs.alpha(nominal, level = "nominal", confint = TRUE, verbose = TRUE,
+#'                               control = list(bootit = 1000, parallel = FALSE))
+#' dev.new()
+#' plot(fit.nom, main = "Results for Nominal Data", xlab = "Bootstrap Estimates", density = FALSE)
+
+plot.krippendorffsalpha = function(x, y = NULL, level = 0.95, type = 7, density = TRUE,
+	                               lty.density = 1, lty.estimate = 1, lty.interval = 2,
+	                               col.density = "black", col.estimate = "orange", col.interval = "blue",
+								   lwd.density = 3, lwd.estimate = 3, lwd.interval = 3, ...)
+{
+    if (! x$confint)
+        stop("There is nothing to plot. Call function krippendorffs.alpha with confint = TRUE.")
+    else
+    {
+        boot.sample = x$boot.sample
+        if (! is.null(boot.sample))
+        {
+            lo = (1 - level) / 2
+            hi = 1 - lo
+            probs = c(lo, hi)
+            confint = quantile(boot.sample, probs, type = type)
+        }
+		hist(boot.sample, prob = TRUE, ...)
+		if (density)
+		    lines(density(boot.sample), lty = lty.density, col = col.density, lwd = lwd.density)
+		abline(v = x$alpha.hat, lty = lty.estimate, col = col.estimate, lwd = lwd.estimate)
+		abline(v = confint, lty = lty.interval, col = col.interval, lwd = lwd.interval)
+    }
+}

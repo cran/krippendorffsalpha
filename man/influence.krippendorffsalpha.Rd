@@ -13,7 +13,7 @@
 
 \item{coders}{a vector of integers. A DFBETA will be computed for each of the corresponding coders.}
 
-\item{...}{additional arguments.}
+\item{...}{additional arguments. These are ignored.}
 }
 \value{
 A list comprising at most two elements.
@@ -29,13 +29,13 @@ This function computes DFBETAS for one or more units and/or one or more coders.
 \examples{
 # The following data were presented in Krippendorff (2013).
 
-data = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
-                1,2,3,3,2,2,4,1,2,5,NA,3,
-                NA,3,3,3,2,3,4,2,2,5,1,NA,
-                1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
-fit = krippendorffs.alpha(data, level = "nominal", confint = FALSE)
-summary(fit)
-(inf = influence(fit, units = c(6, 11), coders = c(2, 3)))
+nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
+                   1,2,3,3,2,2,4,1,2,5,NA,3,
+                   NA,3,3,3,2,3,4,2,2,5,1,NA,
+                   1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
+fit.nom = krippendorffs.alpha(nominal, level = "nominal", confint = FALSE)
+summary(fit.nom)
+(inf = influence(fit.nom, units = c(6, 11), coders = c(2, 3)))
 }
 \references{
 Young, D. S. (2017). \emph{Handbook of Regression Methods}. CRC Press.

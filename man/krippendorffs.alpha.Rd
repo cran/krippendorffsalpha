@@ -57,15 +57,15 @@ If argument \code{confint} is set to \code{TRUE}, bootstrapping is carried out. 
 \examples{
 # The following data were presented in Krippendorff (2013).
 
-data = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
-                1,2,3,3,2,2,4,1,2,5,NA,3,
-                NA,3,3,3,2,3,4,2,2,5,1,NA,
-                1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
-data
-fit = krippendorffs.alpha(data, level = "nominal", confint = TRUE, verbose = TRUE,
-                          control = list(bootit = 100, parallel = FALSE))
-summary(fit)
-confint(fit, 0.99)
+nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
+                   1,2,3,3,2,2,4,1,2,5,NA,3,
+                   NA,3,3,3,2,3,4,2,2,5,1,NA,
+                   1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
+nominal
+fit.nom = krippendorffs.alpha(nominal, level = "nominal", confint = TRUE, verbose = TRUE,
+                              control = list(bootit = 100, parallel = FALSE))
+summary(fit.nom)
+confint(fit.nom, level = 0.99)
 }
 \references{
 Krippendorff, K. (2013). Computing Krippendorff's alpha-reliability. Technical report, University of Pennsylvania.

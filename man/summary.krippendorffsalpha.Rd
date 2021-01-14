@@ -13,7 +13,7 @@
 
 \item{digits}{the number of significant digits to display. The default is 4.}
 
-\item{\dots}{additional arguments.}
+\item{\dots}{additional arguments. These are passed to \code{\link{quantile}}.}
 }
 \description{
 Print a summary of a Krippendorff's Alpha fit.
@@ -27,14 +27,13 @@ This function prints a summary of the fit. First the values of the control param
 # including a 99\% confidence interval. Also plot the results.
 
 data(cartilage)
-data = as.matrix(cartilage[1:100, ])
-fit = krippendorffs.alpha(data, level = "interval", confint = TRUE,
-                          control = list(bootit = 1000, parallel = FALSE))
-summary(fit, conf.level = 0.99)
+cartilage = as.matrix(cartilage[1:100, ])
+fit.cart = krippendorffs.alpha(cartilage, level = "interval", confint = TRUE,
+                               control = list(bootit = 1000, parallel = FALSE))
+summary(fit.cart, conf.level = 0.99)
 dev.new()
-hist(fit$boot.sample, prob = TRUE, xlim = c(0.7, 0.9), xlab = "Bootstrap Estimates", main = "")
-lines(density(fit$boot.sample), col = "blue", lwd = 3)
-abline(v = fit$alpha.hat, col = "orange", lwd = 3)
+plot(fit.cart, xlim = c(0.7, 0.9), xlab = "Bootstrap Estimates",
+     main = "Results for Cartilage Data")
 }
 \references{
 Nissi, M. J., Mortazavi, S., Hughes, J., Morgan, P., and Ellermann, J. (2015). T2* relaxation time of acetabular and femoral cartilage with and without intra-articular Gd-DTPA2 in patients with femoroacetabular impingement. \emph{American Journal of Roentgenology}, \bold{204}(6), W695.

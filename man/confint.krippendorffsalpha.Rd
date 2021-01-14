@@ -2,7 +2,7 @@
 % Please edit documentation in R/krippendorff.R
 \name{confint.krippendorffsalpha}
 \alias{confint.krippendorffsalpha}
-\title{Compute a confidence interval for Krippendorffs Alpha.}
+\title{Compute a confidence interval for Krippendorff's Alpha.}
 \usage{
 \method{confint}{krippendorffsalpha}(object, parm = "alpha", level = 0.95, ...)
 }
@@ -13,13 +13,13 @@
 
 \item{level}{the desired confidence level for the interval. The default is 0.95.}
 
-\item{\dots}{additional arguments.}
+\item{\dots}{additional arguments. These are passed to \code{\link{quantile}}.}
 }
 \value{
 A vector with entries giving lower and upper confidence limits. These will be labelled as (1-level)/2 and 1 - (1-level)/2.
 }
 \description{
-Compute a confidence interval for Krippendorffs Alpha.
+Compute a confidence interval for Krippendorff's Alpha.
 }
 \details{
 This function computes a bootstrap confidence interval for alpha, assuming that \code{\link{krippendorffs.alpha}} was called with \code{confint = TRUE}.
@@ -29,11 +29,11 @@ This function computes a bootstrap confidence interval for alpha, assuming that 
 # using a bootstrap sample size of 1,000.
 
 data(cartilage)
-data = as.matrix(cartilage[1:100, ])
-fit = krippendorffs.alpha(data, level = "interval", confint = TRUE,
-                          control = list(bootit = 1000, parallel = FALSE))
-fit$alpha.hat
-confint(fit, level = 0.99)
+cartilage = as.matrix(cartilage[1:100, ])
+fit.cart = krippendorffs.alpha(cartilage, level = "interval", confint = TRUE,
+                               control = list(bootit = 1000, parallel = FALSE))
+fit.cart$alpha.hat
+confint(fit.cart, level = 0.99)
 }
 \references{
 Nissi, M. J., Mortazavi, S., Hughes, J., Morgan, P., and Ellermann, J. (2015). T2* relaxation time of acetabular and femoral cartilage with and without intra-articular Gd-DTPA2 in patients with femoroacetabular impingement. \emph{American Journal of Roentgenology}, \bold{204}(6), W695.
