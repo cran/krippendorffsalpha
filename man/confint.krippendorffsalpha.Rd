@@ -16,7 +16,7 @@
 \item{\dots}{additional arguments. These are passed to \code{\link{quantile}}.}
 }
 \value{
-A vector with entries giving lower and upper confidence limits. These will be labelled as (1-level)/2 and 1 - (1-level)/2.
+A vector with entries giving lower and upper confidence limits. These will be labelled as (1 - level) / 2 and 1 - (1 - level) / 2.
 }
 \description{
 Compute a confidence interval for Krippendorff's Alpha.

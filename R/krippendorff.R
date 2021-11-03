@@ -220,6 +220,11 @@ krippendorffs.alpha = function(data, level = c("interval", "nominal", "ordinal",
                   D.e = D.e, dist = dist)
     if (confint)
     {
+		if (verbose)
+		{
+			cat("\n")
+			flush.console()
+		}
         boot.sample = krippendorff.bootstrap(object)
         object$boot.sample = boot.sample
     }
@@ -282,7 +287,7 @@ ratio.dist = function(x, y)
 
 #' Compute DFBETAs for units and/or coders.
 #'
-#' @details This function computes DFBETAS for one or more units and/or one or more coders.
+#' @details This function computes DFBETAs for one or more units and/or one or more coders.
 #'
 #' @param model a fitted model object, the result of a call to \code{\link{krippendorffs.alpha}}.
 #' @param units a vector of integers. A DFBETA will be computed for each of the corresponding units.
@@ -290,8 +295,8 @@ ratio.dist = function(x, y)
 #' @param ... additional arguments. These are ignored.
 #
 #' @return A list comprising at most two elements.
-#'         \item{dfbeta.units}{a vector containing DFBETAS for the units specified via argument \code{units}.}
-#'         \item{dfbeta.coders}{a vector containing DFBETAS for the coders specified via argument \code{coders}.}
+#'         \item{dfbeta.units}{a vector containing DFBETAs for the units specified via argument \code{units}.}
+#'         \item{dfbeta.coders}{a vector containing DFBETAs for the coders specified via argument \code{coders}.}
 #'
 #' @method influence krippendorffsalpha
 #'
@@ -434,7 +439,7 @@ summary.krippendorffsalpha = function(object, conf.level = 0.95, digits = 4, ...
 #' @param parm always ignored since there is only one parameter.
 #' @param level the desired confidence level for the interval. The default is 0.95.
 #' @param \dots additional arguments. These are passed to \code{\link{quantile}}.
-#' @return A vector with entries giving lower and upper confidence limits. These will be labelled as (1-level)/2 and 1 - (1-level)/2.
+#' @return A vector with entries giving lower and upper confidence limits. These will be labelled as (1 - level) / 2 and 1 - (1 - level) / 2.
 #' @seealso \code{\link{krippendorffs.alpha}}
 #'
 #' @method confint krippendorffsalpha

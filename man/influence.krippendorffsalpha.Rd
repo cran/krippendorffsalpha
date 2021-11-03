@@ -17,14 +17,14 @@
 }
 \value{
 A list comprising at most two elements.
-        \item{dfbeta.units}{a vector containing DFBETAS for the units specified via argument \code{units}.}
-        \item{dfbeta.coders}{a vector containing DFBETAS for the coders specified via argument \code{coders}.}
+        \item{dfbeta.units}{a vector containing DFBETAs for the units specified via argument \code{units}.}
+        \item{dfbeta.coders}{a vector containing DFBETAs for the coders specified via argument \code{coders}.}
 }
 \description{
 Compute DFBETAs for units and/or coders.
 }
 \details{
-This function computes DFBETAS for one or more units and/or one or more coders.
+This function computes DFBETAs for one or more units and/or one or more coders.
 }
 \examples{
 # The following data were presented in Krippendorff (2013).

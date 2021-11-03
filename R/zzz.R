@@ -11,6 +11,7 @@
 ######################################################################
 
 #' @importFrom utils packageDescription
+#' @importFrom utils flush.console
 #' @importFrom stats quantile
 #' @importFrom stats influence
 #' @importFrom stats confint

@@ -1,8 +1,8 @@
 Package: krippendorffsalpha
 Type: Package
 Title: Measuring Agreement Using Krippendorff's Alpha Coefficient
-Version: 1.1
-Date: 2021-01-14
+Version: 1.1-1
+Date: 2021-11-03
 Author: John Hughes
 Maintainer: John Hughes <drjphughesjr@gmail.com>
 Suggests: parallel, pbapply, testthat (>= 3.0.0)
@@ -11,7 +11,7 @@ License: GPL (>= 2)
 URL: http://www.johnhughes.org
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-01-14 18:00:28 UTC; jphughesjr
+Packaged: 2021-11-03 13:17:50 UTC; johnhughes
 Config/testthat/edition: 3
 Repository: CRAN
-Date/Publication: 2021-01-14 22:00:03 UTC
+Date/Publication: 2021-11-03 13:50:01 UTC
