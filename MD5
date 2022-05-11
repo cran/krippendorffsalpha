@@ -1,11 +1,12 @@
-b2437490353f039b7a97552f03836747 *COPYING
-b3a3b24ea47404bcb221859be48a8df2 *DESCRIPTION
+acff1444b2ded15bdaf9c38d83e2d7b1 *COPYING
+e5d8254e529f206e94c3864cef4b8068 *DESCRIPTION
 757c30986586f16eb9617aced45e0102 *NAMESPACE
-b7c22f513957440cc5d0c9a41cab9402 *R/krippendorff.R
+809459f6c9b05ebafd104526ac4ed095 *R/data.R
+7d48ede84cb6e892e8d2e9941e3274a2 *R/krippendorff.R
 9b3199eb229562fa40ec5fb7c171f37a *R/zzz.R
 56f471a2f7ac7a1f1b0f1281c626032e *data/cartilage.rda
 bf3e9981f35e9a501cb6959a9002fea9 *inst/doc/krippendorffsalpha_vignette.pdf
-df27c931ed2dda976307a5252cf81a31 *man/cartilage.Rd
+39a6ad0f99279f9d1d299e3df04fe1a9 *man/cartilage.Rd
 be3d180e187ec1118680b93d01163a17 *man/confint.krippendorffsalpha.Rd
 b0ca3ef0d2586372729d289bb186519f *man/influence.krippendorffsalpha.Rd
 e114c6c889c1dead1705f19609bf18ab *man/interval.dist.Rd

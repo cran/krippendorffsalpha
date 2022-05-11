@@ -195,14 +195,13 @@ krippendorffs.alpha = function(data, level = c("interval", "nominal", "ordinal",
     }
     else
     {
+		level = match.arg(level)
         if (level == "interval" || level == "ordinal")
             dist = interval.dist
         else if (level == "nominal")
             dist = nominal.dist
         else if (level == "ratio")
             dist = ratio.dist
-        else
-            stop("'level' must be a distance function or one of \"interval\", \"nominal\", \"ordinal\", or \"ratio\".")
     }
     if (! is.logical(confint) || length(confint) > 1)
         stop("'confint' must be a logical value.")
