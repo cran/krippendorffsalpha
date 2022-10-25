@@ -19,16 +19,17 @@
 Print a summary of a Krippendorff's Alpha fit.
 }
 \details{
-This function prints a summary of the fit. First the values of the control parameters (defaults and/or values supplied in the call) are printed. Then a table of estimates is shown. If applicable, the table includes confidence intervals.
+This function prints a summary of the fit. First the data geometry is described, then the call signature is printed, then the values of the control parameters (defaults and/or values supplied in the call) are printed. Finally, a table of estimates is shown. If applicable, the table includes confidence limits.
 }
 \examples{
-# Fit a subset of the cartilage data. Compute bootstrap confidence intervals
-# using a bootstrap sample size of 1,000. Display a summary of the results,
-# including a 99\% confidence interval. Also plot the results.
+# Fit a subset of the cartilage data, using the customary methodology.
+# Compute bootstrap confidence intervals using a bootstrap sample size
+# of 1,000. Display a summary of the results, including a 99\% confidence
+# interval. Also plot the results.
 
 data(cartilage)
 cartilage = as.matrix(cartilage[1:100, ])
-fit.cart = krippendorffs.alpha(cartilage, level = "interval", confint = TRUE,
+fit.cart = krippendorffs.alpha(cartilage, level = "ratio", method = "customary", confint = TRUE,
                                control = list(bootit = 1000, parallel = FALSE))
 summary(fit.cart, conf.level = 0.99)
 dev.new()

@@ -5,7 +5,7 @@
 #
 # Written by John Hughes <drjphughesjr@gmail.com>.
 #
-# Last Modified 05/27/20
+# Last Modified 10/11/22
 # Licensed under the GNU General Public License version 2 (June, 1991)
 #
 ######################################################################
@@ -16,6 +16,8 @@
 #' @importFrom stats influence
 #' @importFrom stats confint
 #' @importFrom stats density
+#' @importFrom stats qt
+#' @importFrom stats var
 #' @importFrom graphics plot
 #' @importFrom graphics abline
 #' @importFrom graphics hist
@@ -24,9 +26,9 @@
 .onAttach = function(libname, pkgname)
 {
     temp = packageDescription("krippendorffsalpha")
-    msg = paste(temp$Package, ": ", temp$Title, "\n", "Version ", temp$Version,
+    msg = paste("\n", temp$Package, ": ", temp$Title, "\n", "Version ", temp$Version,
                 " created on ", temp$Date, ".\n", sep = "")
-    msg = paste(msg, "copyright (c) 2020-2021, John Hughes\n",
+    msg = paste(msg, "copyright (c) 2020-2022, John Hughes\n",
                 sep = "")
     msg = paste(msg, 'For citation information, type citation("krippendorffsalpha").\n', sep = "")
     msg = paste(msg, 'Type help(package = krippendorffsalpha) to get started.\n', sep = "")

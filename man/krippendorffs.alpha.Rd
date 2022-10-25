@@ -7,40 +7,50 @@
 krippendorffs.alpha(
   data,
   level = c("interval", "nominal", "ordinal", "ratio"),
+  method = c("analytical", "customary"),
   confint = TRUE,
   verbose = FALSE,
   control = list()
 )
 }
 \arguments{
-\item{data}{a matrix of scores. Each row corresponds to a unit, each column a coder.}
+\item{data}{a matrix of scores. Each row corresponds to a unit, each column to a coder.}
 
 \item{level}{the level of measurement, one of \code{"nominal"}, \code{"ordinal"}, \code{"interval"}, or \code{"ratio"}; or a user-defined distance function.}
 
-\item{confint}{logical; if \code{TRUE}, a bootstrap sample is produced.}
+\item{method}{the methodology to apply, either \code{"analytical"} or \code{"customary"}.}
 
-\item{verbose}{logical; if \code{TRUE}, various messages are printed to the console. Note that if \code{confint = TRUE} a progress bar (\code{\link[pbapply]{pblapply}}) is displayed (if possible) during the bootstrap computation.}
+\item{confint}{logical; if \code{TRUE}, a confidence interval is computed. For \code{method = "analytical"} the interval is a jackknife interval. For \code{method = "customary"} the interval is a bootstrap interval.}
+
+\item{verbose}{logical; if \code{TRUE}, various messages are printed to the console. Note that if \code{confint = TRUE} a progress bar (\code{\link[pbapply]{pblapply}}) is displayed (if possible) during the bootstrap or jackknife computation.}
 
 \item{control}{a list of control parameters.
    \describe{
-       \item{\code{bootit}}{the size of the bootstrap sample. This applies when \code{confint = TRUE}. Defaults to 1,000.}
+       \item{\code{bootit}}{the size of the bootstrap sample. This applies when \code{confint = TRUE} and \code{method = "customary"}. Defaults to 1,000.}
        \item{\code{nodes}}{the desired number of nodes in the cluster.}
-       \item{\code{parallel}}{logical; if \code{TRUE} (the default), bootstrapping is done in parallel.}
+       \item{\code{parallel}}{logical; if \code{TRUE} (the default), bootstrapping or jackknife estimation is done in parallel (for \code{confint = TRUE}).}
        \item{\code{type}}{one of the supported cluster types for \code{\link[parallel]{makeCluster}}. Defaults to \code{"SOCK"}.}
 }}
 }
 \value{
 Function \code{krippendorffs.alpha} returns an object of class \code{"krippendorffsalpha"}, which is a list comprising the following elements.
+        \item{alpha.hat}{the estimate of alpha.}
         \item{boot.sample}{when applicable, the bootstrap sample.}
         \item{call}{the matched call.}
         \item{coders}{the number of coders.}
-        \item{alpha.hat}{the estimate of alpha.}
         \item{confint}{the value of argument \code{confint}.}
         \item{control}{the list of control parameters.}
-        \item{data}{the matrix of scores.}
-        \item{D.e}{the estimate of total variation.}
-        \item{D.o}{the estimate of within-unit variation.}
-        \item{level}{the level of measurement.}
+        \item{data}{the matrix of scores, where rows represent units and columns represent coders.}
+        \item{eta.hat}{when \code{method = "analytical"}, \eqn{log(MSA / MSE)}.}
+        \item{L}{when \code{method = "analytical"}, the lower 95\% confidence limit for alpha.}
+        \item{level}{the level of measurement, or a user-dfined distance function.}
+        \item{MSA}{when \code{method = "analytical"}, the estimate of between-unit variation.}
+        \item{MSE}{the estimate of within-unit variation.}
+        \item{MST}{when \code{method = "customary"}, the estimate of total variation.}
+        \item{method}{the value of argument \code{method}.}
+        \item{n_}{when \code{method = "analytical"}, the average number of scores per row of the data matrix.}
+        \item{se}{when \code{method = "analytical"}, the jackknife standard error.}
+        \item{U}{when \code{method = "analytical"}, the upper 95\% confidence limit for alpha.}
         \item{units}{the number of units.}
         \item{verbose}{the value of argument \code{verbose}.}
 }
@@ -52,10 +62,15 @@ This is the package's flagship function. It applies the Krippendorff's Alpha met
 
 If the level of measurement is nominal, the discrete metric (\code{\link{nominal.dist}}) is employed by default. If the level of measurement is interval or ordinal, the squared-difference distance function (\code{\link{interval.dist}}) is employed by default. (For the ordinal level of measurement, using the squared-difference distance function may be inappropriate, in which case the user should supply his/her own distance function.) If the level of measurement is ratio, a ratio distance function (\code{\link{ratio.dist}}) is applied. Alternatively, the user may supply his/her own distance function. Said function must handle \code{NA}'s gracefully; see the above mentioned built-in distance functions for examples.
 
-If argument \code{confint} is set to \code{TRUE}, bootstrapping is carried out. This is done by resampling, with replacement, the rows of \code{data} and then computing the alpha statistic for the resulting matrix. The elements of argument \code{control} are used to control the bootstrap computation.
+Argument \code{method} is used to choose between the customary Alpha methodology and the analytical methodology developed by Hughes: \code{method = "analytical"} or \code{method = "customary"}. For smaller samples Hughes' methodology should be strongly preferred because that approach reduces bias for point estimation and provides much better performing confidence intervals---jackknife intervals, to be precise. For large samples Krippendorff's customary methodology can safely be used for inference, and speeds computation considerably relative to Hughes' jackknife method.
+
+If argument \code{confint} is set to \code{TRUE}, a confidence interval is computed. For Hughes' methodology a jackknife interval is produced. For the customary methodology a bootstrap interval is produced. The bootstrap is done by resampling, with replacement, the rows of \code{data} and then computing the alpha statistic for the resulting matrix. The elements of argument \code{control} are used to control the interval computation.
 }
 \examples{
-# The following data were presented in Krippendorff (2013).
+# The following data were presented in Krippendorff (2013). This example
+# applies Hughes' methodology (the default) to these data. A jackknife
+# confidence interval is produced (confint = TRUE). The fit is then
+# summarized, and a 99\% interval is given.
 
 nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
                    1,2,3,3,2,2,4,1,2,5,NA,3,
@@ -63,10 +78,12 @@ nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
                    1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
 nominal
 fit.nom = krippendorffs.alpha(nominal, level = "nominal", confint = TRUE, verbose = TRUE,
-                              control = list(bootit = 100, parallel = FALSE))
+                              control = list(parallel = FALSE))
 summary(fit.nom)
 confint(fit.nom, level = 0.99)
 }
 \references{
 Krippendorff, K. (2013). Computing Krippendorff's alpha-reliability. Technical report, University of Pennsylvania.
+
+Hughes, J. (2022). Toward improved inference for Krippendorff's Alpha agreement coefficient. arXiv.
 }

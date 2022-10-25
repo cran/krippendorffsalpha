@@ -57,7 +57,9 @@
 Plot the results of a Krippendorff's Alpha analysis.
 }
 \details{
-This function plots the results of a Krippendorff's Alpha analysis, assuming that \code{\link{krippendorffs.alpha}} was called with \code{confint = TRUE}.
+This function plots the results of a Krippendorff's Alpha analysis, assuming that \code{\link{krippendorffs.alpha}} was called with \code{method = "customary"} and \code{confint = TRUE}. Otherwise there is no bootstrap sample to work with. The plot is highly customizable.
+
+This function plots a histogram of the bootstrap sample, (optionally) a kernel density estimate, and vertical lines marking the lower and upper confidence limits.
 }
 \examples{
 # The following data were presented in Krippendorff (2013).
@@ -66,11 +68,14 @@ nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
                    1,2,3,3,2,2,4,1,2,5,NA,3,
                    NA,3,3,3,2,3,4,2,2,5,1,NA,
                    1,2,3,3,2,4,4,1,2,5,1,NA), 12, 4)
-fit.nom = krippendorffs.alpha(nominal, level = "nominal", confint = TRUE, verbose = TRUE,
-                              control = list(bootit = 1000, parallel = FALSE))
+fit.nom = krippendorffs.alpha(nominal, level = "nominal", method = "customary", confint = TRUE,
+                              verbose = TRUE, control = list(bootit = 1000, parallel = FALSE))
 dev.new()
 plot(fit.nom, main = "Results for Nominal Data", xlab = "Bootstrap Estimates", density = FALSE)
 }
 \references{
 Krippendorff, K. (2013). Computing Krippendorff's alpha-reliability. Technical report, University of Pennsylvania.
+}
+\seealso{
+\code{\link{krippendorffs.alpha}}
 }

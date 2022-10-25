@@ -27,7 +27,9 @@ Compute DFBETAs for units and/or coders.
 This function computes DFBETAs for one or more units and/or one or more coders.
 }
 \examples{
-# The following data were presented in Krippendorff (2013).
+# The following data were presented in Krippendorff (2013). This example
+# applies Hughes' methodology to the data (method = "analytical", the default).
+# DFBETAS are computed by leaving out unit 6, unit 11, coder 2, and coder 3.
 
 nominal = matrix(c(1,2,3,3,2,1,4,1,2,NA,NA,NA,
                    1,2,3,3,2,2,4,1,2,5,NA,3,

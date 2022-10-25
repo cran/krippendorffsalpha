@@ -22,15 +22,18 @@ A vector with entries giving lower and upper confidence limits. These will be la
 Compute a confidence interval for Krippendorff's Alpha.
 }
 \details{
-This function computes a bootstrap confidence interval for alpha, assuming that \code{\link{krippendorffs.alpha}} was called with \code{confint = TRUE}.
+This function computes a confidence interval for alpha, assuming that \code{\link{krippendorffs.alpha}} was called with \code{confint = TRUE}.
+
+For \code{method = "analytical"}, a jackknife-based interval is computed. For smaller samples the jackknife interval offers a very substantial improvement over the bootstrap interval, the latter of which offers quite poor coverage. For larger samples \code{method = "customary"} can safely be used, in which case a bootstrap interval is provided. For sufficiently large datasets the two intervals will be nearly equal, but the bootstrap approach is preferred owing to its much faster execution speed.
 }
 \examples{
-# Fit a subset of the cartilage data. Compute bootstrap confidence intervals
-# using a bootstrap sample size of 1,000.
+# Fit a subset of the cartilage data, using the customary methodology.
+# Compute bootstrap confidence intervals using a bootstrap sample size
+# of 1,000. Report the estimate of alpha, and produce a 99\% interval.
 
 data(cartilage)
 cartilage = as.matrix(cartilage[1:100, ])
-fit.cart = krippendorffs.alpha(cartilage, level = "interval", confint = TRUE,
+fit.cart = krippendorffs.alpha(cartilage, level = "ratio", method = "customary", confint = TRUE,
                                control = list(bootit = 1000, parallel = FALSE))
 fit.cart$alpha.hat
 confint(fit.cart, level = 0.99)
