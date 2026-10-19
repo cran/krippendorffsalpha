@@ -8,15 +8,21 @@ export(interval.dist)
 export(krippendorffs.alpha)
 export(nominal.dist)
 export(ratio.dist)
-importFrom(graphics,abline)
-importFrom(graphics,hist)
-importFrom(graphics,lines)
-importFrom(graphics,plot)
-importFrom(stats,confint)
-importFrom(stats,density)
-importFrom(stats,influence)
-importFrom(stats,qt)
-importFrom(stats,quantile)
-importFrom(stats,var)
-importFrom(utils,flush.console)
-importFrom(utils,packageDescription)
+importFrom(graphics,
+  abline,
+  hist,
+  lines,
+  plot
+)
+importFrom(stats,
+  confint,
+  density,
+  influence,
+  qt,
+  quantile,
+  var
+)
+importFrom(utils,
+  flush.console,
+  packageDescription
+)

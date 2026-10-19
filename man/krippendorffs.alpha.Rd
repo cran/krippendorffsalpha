@@ -29,7 +29,7 @@ krippendorffs.alpha(
        \item{\code{bootit}}{the size of the bootstrap sample. This applies when \code{confint = TRUE} and \code{method = "customary"}. Defaults to 1,000.}
        \item{\code{nodes}}{the desired number of nodes in the cluster.}
        \item{\code{parallel}}{logical; if \code{TRUE} (the default), bootstrapping or jackknife estimation is done in parallel (for \code{confint = TRUE}).}
-       \item{\code{type}}{one of the supported cluster types for \code{\link[parallel]{makeCluster}}. Defaults to \code{"SOCK"}.}
+       \item{\code{type}}{one of the supported cluster types for \code{\link[parallel]{makeCluster}}. Defaults to \code{"PSOCK"}.}
 }}
 }
 \value{
@@ -85,5 +85,5 @@ confint(fit.nom, level = 0.99)
 \references{
 Krippendorff, K. (2013). Computing Krippendorff's alpha-reliability. Technical report, University of Pennsylvania.
 
-Hughes, J. (2022). Toward improved inference for Krippendorff's Alpha agreement coefficient. arXiv.
+Hughes, J. (2024). Toward improved inference for Krippendorff's Alpha agreement coefficient. \emph{Journal of Statistical Planning and Inference}, \bold{233}, 106170.
 }

@@ -5,7 +5,7 @@
 #
 # Written by John Hughes <drjphughesjr@gmail.com>.
 #
-# Last Modified 10/11/22
+# Last Modified 10/07/26
 # Licensed under the GNU General Public License version 2 (June, 1991)
 #
 ######################################################################
@@ -28,7 +28,7 @@
     temp = packageDescription("krippendorffsalpha")
     msg = paste("\n", temp$Package, ": ", temp$Title, "\n", "Version ", temp$Version,
                 " created on ", temp$Date, ".\n", sep = "")
-    msg = paste(msg, "copyright (c) 2020-2022, John Hughes\n",
+    msg = paste(msg, "copyright (c) 2020-2026, John Hughes\n",
                 sep = "")
     msg = paste(msg, 'For citation information, type citation("krippendorffsalpha").\n', sep = "")
     msg = paste(msg, 'Type help(package = krippendorffsalpha) to get started.\n', sep = "")

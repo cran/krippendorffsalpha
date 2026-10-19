@@ -82,11 +82,11 @@ krippendorff.control = function(method, confint, verbose, control)
         {
             if (requireNamespace("parallel", quietly = TRUE))
             {
-                if (is.null(control$type) || length(control$type) > 1 || ! control$type %in% c("SOCK", "PVM", "MPI", "NWS"))
+                if (is.null(control$type) || length(control$type) > 1 || ! control$type %in% parallel::registerClusterType())
                 {
                     if (verbose)
-                        message("\nControl parameter 'type' must be \"SOCK\", \"PVM\", \"MPI\", or \"NWS\". Setting it to \"SOCK\".")
-                    control$type = "SOCK"
+                        message("\nControl parameter 'type' must be one of the registered cluster types. Setting it to \"PSOCK\".")
+                    control$type = "PSOCK"
                 }
                 nodes = control$nodes
                 if (is.null(control$nodes) || ! is.numeric(nodes) || length(nodes) > 1 || nodes != as.integer(nodes) || nodes < 2)
@@ -245,7 +245,7 @@ krippendorff.bootstrap = function(object)
 #'        \item{\code{bootit}}{the size of the bootstrap sample. This applies when \code{confint = TRUE} and \code{method = "customary"}. Defaults to 1,000.}
 #'        \item{\code{nodes}}{the desired number of nodes in the cluster.}
 #'        \item{\code{parallel}}{logical; if \code{TRUE} (the default), bootstrapping or jackknife estimation is done in parallel (for \code{confint = TRUE}).}
-#'        \item{\code{type}}{one of the supported cluster types for \code{\link[parallel]{makeCluster}}. Defaults to \code{"SOCK"}.}
+#'        \item{\code{type}}{one of the supported cluster types for \code{\link[parallel]{makeCluster}}. Defaults to \code{"PSOCK"}.}
 #' }
 #'
 #' @return Function \code{krippendorffs.alpha} returns an object of class \code{"krippendorffsalpha"}, which is a list comprising the following elements.
@@ -272,7 +272,7 @@ krippendorff.bootstrap = function(object)
 #' @references
 #' Krippendorff, K. (2013). Computing Krippendorff's alpha-reliability. Technical report, University of Pennsylvania.
 #' @references
-#' Hughes, J. (2022). Toward improved inference for Krippendorff's Alpha agreement coefficient. arXiv.
+#' Hughes, J. (2024). Toward improved inference for Krippendorff's Alpha agreement coefficient. \emph{Journal of Statistical Planning and Inference}, \bold{233}, 106170.
 #'
 #' @export
 #'
